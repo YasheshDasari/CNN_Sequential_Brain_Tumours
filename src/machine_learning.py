@@ -39,12 +39,13 @@ class Modeling:
                                            height_shift_range=0.2,
                                            shear_range=0.2,
                                            zoom_range=0.2,
-                                           horizontal_flip = True,
+                                           horizontal_flip=True,
                                            fill_mode='nearest')
 
         train_generator = train_datagen.flow_from_directory(training_dir, batch_size=10, class_mode='binary',
                                                             target_size=(150, 150))
-        validation_dir = "trial1/augmented data1/testing"
+        validation_dir = os.path.join("trial1", "augmented data1", "testing")
+        # "trial1/augmented data1/testing"
         validation_datagen = ImageDataGenerator(rescale=1.0 / 255)
 
         validation_generator = validation_datagen.flow_from_directory(validation_dir, batch_size=10,
@@ -58,6 +59,7 @@ class Modeling:
         loss = history.history['loss']
         val_loss = history.history['val_loss']
 
+        # Plotting the model accuracy
         epochs = range(len(acc))  # Get number of epochs
 
         plt.plot(epochs, acc, 'r', "Training Accuracy")
