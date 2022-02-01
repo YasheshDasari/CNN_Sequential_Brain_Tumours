@@ -9,7 +9,8 @@ def main():
     # print("Directory creation completed")
 
     modeling = machine_learning.Modeling()
-    modeling.model_definition()
+    # modeling.model_definition()
+    modeling.predict()
 
 
 if __name__ == '__main__':
