@@ -69,20 +69,25 @@ class Modeling:
 
         history = model.fit(train_generator,
                             steps_per_epoch=13,
-                            epochs=15,
+                            epochs=20,
                             verbose=1,
                             validation_data=validation_generator,
                             validation_steps=8)
 
-        path = "trial1/augmented data1/prediction/test/aug_Y12_0_1694.jpg"
+        model.save('CNN_MRI.h5')
+
+    def predict(self):
+        load_model = tf.keras.models.load_model('CNN_MRI.h5')
+        path = "trial1/augmented data1/prediction/test/aug_2 no._0_4187.jpg"
         img = image.load_img(path, target_size=(200, 200))
         x = image.img_to_array(img)
         plt.imshow(x / 255.)
         x = np.expand_dims(x, axis=0)
         images = np.vstack([x])
-        classes = model.predict(images, batch_size=10)
+        classes = load_model.predict(images, batch_size=10)
         print(classes[0])
         if classes[0] < 0.5:
-            print(path + " is non-tumorous")
+            print(path + " is healthy")
         else:
-            print(path + " is tumorous")
+            print(path + " has a tumor")
+
