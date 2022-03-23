@@ -30,8 +30,9 @@ class LoadDataset:
         except OSError:
             pass
 
-    def augment_data(self, file_dir, n_generated_samples, save_to_dir):
+    def augment_data(self, file_dir, no_of_samples, output_dir):
 
+        # Using ImageDataGenerator for data augmentation
         data_gen = ImageDataGenerator(rotation_range=10,
                                       width_shift_range=0.1,
                                       height_shift_range=0.1,
@@ -43,27 +44,26 @@ class LoadDataset:
                                       )
 
         for filename in listdir(file_dir):
-            # load the image
+            # Load and reshape the image
             image = cv2.imread(file_dir + '\\' + filename)
-            # reshape the image
             image = image.reshape((1,) + image.shape)
-            # add aug_ to the new images
             save_prefix = 'aug_' + filename[:-4]
-            # generate 'n_generated_samples' sample images
+
+            # Generate 'n_generated_samples' sample images
             i = 0
-            for batch in data_gen.flow(x=image, batch_size=1, save_to_dir=save_to_dir,
+            for batch in data_gen.flow(x=image, batch_size=1, save_to_dir=output_dir,
                                        save_prefix=save_prefix, save_format='jpg'):
                 i += 1
-                if i > n_generated_samples:
+                if i > no_of_samples:
                     break
 
     def store_augmented_data(self):
         augmented_data_path = 'trial1/augmented data1/'
 
         # augment data for the examples with label equal to 'yes' representing tumorous examples
-        self.augment_data(file_dir='data/yes', n_generated_samples=6, save_to_dir=augmented_data_path + 'yes_real')
+        self.augment_data(file_dir='data/yes', no_of_samples=6, output_dir=augmented_data_path + 'yes_real')
         # augment data for the examples with label equal to 'no' representing non-tumorous examples
-        self.augment_data(file_dir='data/no', n_generated_samples=9, save_to_dir=augmented_data_path + 'no_real')
+        self.augment_data(file_dir='data/no', no_of_samples=9, output_dir=augmented_data_path + 'no_real')
 
         def split_data(source, training, testing, split_size):
             dataset = []
