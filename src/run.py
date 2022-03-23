@@ -3,13 +3,13 @@ import machine_learning
 
 
 def main():
-    # start_program = dataset_management.LoadDataset()
-    # start_program.manage_directories()
-    # start_program.store_augmented_data()
-    # print("Directory creation completed")
+    start_program = dataset_management.LoadDataset()
+    start_program.manage_directories()
+    start_program.store_augmented_data()
+    print("Directory creation completed")
 
     modeling = machine_learning.Modeling()
-    # modeling.model_definition()
+    modeling.model_definition()
     modeling.predict()
 
 
